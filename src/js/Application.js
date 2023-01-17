@@ -9,7 +9,7 @@ export default class Application extends EventEmitter {
   
   constructor() {
     super();
-
+    
     
     this._startLoading();
     this._create();
@@ -17,18 +17,28 @@ export default class Application extends EventEmitter {
   }
 
    async _load(){
-    const apiUrl  ='https://swapi.boom.dev/api/planets';
+    let apiUrl  ='https://swapi.boom.dev/api/planets';
 
     let response = await fetch(apiUrl);
 
     if (response.status === 200) {
       
         let data = await response.json();
- 
+          console.log(data);
           return data;
 
   
     }
+  }
+  _checkNext() {
+    // let apiUrl  ='https://swapi.boom.dev/api/planets';
+    // this._load().then((response) => { 
+    //   if(response.next){
+    //     console.log(response.next);
+    //     apiUrl = response.next;
+    //     // this._create();
+    //   }
+    // });
   }
 
   _create(){
@@ -49,6 +59,7 @@ export default class Application extends EventEmitter {
         document.body.querySelector(".content-wrapper").appendChild(block);
       });
     });
+    //this._checkNext();
   }
   _startLoading(){
     const progressBar = document.getElementById('progress');
