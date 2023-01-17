@@ -19,11 +19,18 @@ html {
   background: $background;
 }
 
-.main {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10rem;
-  flex-flow: column;
+.content-wrapper {
+ display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+}
+section.planetscontainer {
+  background-color: #e5e5e5;
+  padding: 15px;
+}
+.hide{
+  display:none;
 }
