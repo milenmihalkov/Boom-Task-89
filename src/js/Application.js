@@ -10,8 +10,9 @@ export default class Application extends EventEmitter {
   constructor() {
     super();
 
-    this._create();
+    
     this._startLoading();
+    this._create();
     this.emit(Application.events.READY);
   }
 
@@ -19,8 +20,6 @@ export default class Application extends EventEmitter {
     const apiUrl  ='https://swapi.boom.dev/api/planets';
 
     let response = await fetch(apiUrl);
-    console.log(response.status); // 200
-    console.log(response.statusText); // OK
 
     if (response.status === 200) {
       
@@ -34,7 +33,7 @@ export default class Application extends EventEmitter {
 
   _create(){
     this._load().then((response) => { 
-      console.log(response.results);
+      // console.log(response.results);
       response.results.forEach((element) => {
 
         let block = document.createElement("section");
