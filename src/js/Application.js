@@ -10,16 +10,19 @@ export default class Application extends EventEmitter {
   constructor() {
     super();
     
-    
+    this.propertys = {
+      apiUrl:'https://swapi.boom.dev/api/planets',
+      progressBar: document.getElementById('progress')
+    };
     this._startLoading();
     this._create();
     this.emit(Application.events.READY);
   }
 
    async _load(){
-    let apiUrl  ='https://swapi.boom.dev/api/planets';
+   
 
-    let response = await fetch(apiUrl);
+    let response = await fetch(this.propertys.apiUrl);
 
     if (response.status === 200) {
       
@@ -31,14 +34,13 @@ export default class Application extends EventEmitter {
     }
   }
   _checkNext() {
-    // let apiUrl  ='https://swapi.boom.dev/api/planets';
-    // this._load().then((response) => { 
-    //   if(response.next){
-    //     console.log(response.next);
-    //     apiUrl = response.next;
-    //     // this._create();
-    //   }
-    // });
+    this._load().then((response) => { 
+      if(response.next){
+        //console.log(response.next);
+        this.propertys.apiUrl = response.next;
+         this._create();
+      }
+    });
   }
 
   _create(){
@@ -59,15 +61,14 @@ export default class Application extends EventEmitter {
         document.body.querySelector(".content-wrapper").appendChild(block);
       });
     });
-    //this._checkNext();
+    this._checkNext();
   }
   _startLoading(){
-    const progressBar = document.getElementById('progress');
-    progressBar.style.display = 'block';
+    this.propertys.progressBar.style.display = 'block';
   }
   _stopLoading(){
-    const progressBar = document.getElementById('progress');
-    progressBar.style.display = 'none';
+    
+    this.propertys.progressBar.style.display = 'none';
   }
 
   _render({ name, rotation_period, diameter }) {
