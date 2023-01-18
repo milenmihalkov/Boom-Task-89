@@ -27,7 +27,7 @@ export default class Application extends EventEmitter {
     if (response.status === 200) {
       
         let data = await response.json();
-          console.log(data);
+          //console.log(data);
           return data;
 
   
