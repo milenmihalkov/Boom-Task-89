@@ -12,7 +12,7 @@ export default class Application extends EventEmitter {
     
     this.propertys = {
       apiUrl:'https://swapi.boom.dev/api/planets',
-      progressBar: document.getElementById('progress')
+      
     };
     this._startLoading();
     this._create();
@@ -64,11 +64,12 @@ export default class Application extends EventEmitter {
     this._checkNext();
   }
   _startLoading(){
-    this.propertys.progressBar.style.display = 'block';
+    let progressBar= document.getElementById('progress');
+    progressBar.style.display = 'block';
   }
   _stopLoading(){
-    
-    this.propertys.progressBar.style.display = 'none';
+    let progressBar= document.getElementById('progress');
+    progressBar.style.display = 'none';
   }
 
   _render({ name, rotation_period, diameter }) {
