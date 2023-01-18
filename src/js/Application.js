@@ -10,7 +10,7 @@ export default class Application extends EventEmitter {
   constructor() {
     super();
     
-    this.propertys = {
+    this.properties = {
       apiUrl:'https://swapi.boom.dev/api/planets',
       
     };
@@ -20,9 +20,7 @@ export default class Application extends EventEmitter {
   }
 
    async _load(){
-   
-
-    let response = await fetch(this.propertys.apiUrl);
+    let response = await fetch(this.properties.apiUrl);
 
     if (response.status === 200) {
       
@@ -37,7 +35,7 @@ export default class Application extends EventEmitter {
     this._load().then((response) => { 
       if(response.next){
         //console.log(response.next);
-        this.propertys.apiUrl = response.next;
+        this.properties.apiUrl = response.next;
          this._create();
       }
     });
@@ -63,10 +61,12 @@ export default class Application extends EventEmitter {
     });
     this._checkNext();
   }
+
   _startLoading(){
     let progressBar= document.getElementById('progress');
     progressBar.style.display = 'block';
   }
+
   _stopLoading(){
     let progressBar= document.getElementById('progress');
     progressBar.style.display = 'none';
