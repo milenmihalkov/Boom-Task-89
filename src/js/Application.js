@@ -14,7 +14,7 @@ export default class Application extends EventEmitter {
     
     this._startLoading();
     this._create();
-    this.emit(Application.events.READY);
+    //this.emit(Application.events.READY);
   }
 
    async _load(){
@@ -35,6 +35,9 @@ export default class Application extends EventEmitter {
       if(response.next){
         this.apiUrl = response.next;
         this._create();
+      }
+      else{
+        return false;
       }
     });
   }
