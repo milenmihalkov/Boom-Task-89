@@ -58,12 +58,14 @@ export default class Application extends EventEmitter {
     });
     this._checkNext();
   }
+
   _startLoading(){
-    const progressBar = document.getElementById('progress');
+    let progressBar= document.getElementById('progress');
     progressBar.style.display = 'block';
   }
+
   _stopLoading(){
-    const progressBar = document.getElementById('progress');
+    let progressBar= document.getElementById('progress');
     progressBar.style.display = 'none';
   }
 
