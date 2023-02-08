@@ -1,4 +1,5 @@
 import EventEmitter from "eventemitter3";
+import image from "../images/planet.png";
 
 export default class Application extends EventEmitter {
   static get events() {
@@ -6,81 +7,76 @@ export default class Application extends EventEmitter {
       READY: "ready",
     };
   }
-  
 
   constructor() {
     super();
-    this.apiUrl  ='https://swapi.boom.dev/api/planets';
-    
+
+    this._loading = document.querySelector(".progress");
+    this.apiUrl = "https://swapi.boom.dev/api/planets";
     this._startLoading();
     this._create();
-    //this.emit(Application.events.READY);
+    this.emit(Application.events.READY);
   }
 
-   async _load(){
-    
-
-    let response = await fetch(this.apiUrl);
-
-    if (response.status === 200) {
-      
-        let data = await response.json();
-          return data;
-
-  
-    }
+  async _load() {
+    return await fetch(this.apiUrl).then((response) => {
+      return response.json();
+    });
   }
+
+  _startLoading() {
+    this._loading.style.display = "block";
+  }
+
+  _stopLoading() {
+    this._loading.style.display = "none";
+  }
+
   _checkNext() {
-    this._load().then((response) => { 
-      if(response.next){
+    this._load().then((response) => {
+      if (response.next) {
+        console.log(response.next);
         this.apiUrl = response.next;
         this._create();
-      }
-      else{
-        return false;
       }
     });
   }
 
-  _create(){
-    this._load().then((response) => { 
+  _create() {
+    this._load().then((response) => {
       response.results.forEach((element) => {
-
-        let block = document.createElement("section");
-        block.classList.add("planetscontainer");
-    
-        block.innerHTML = this._render({
+        const box = document.createElement("div");
+        box.classList.add("box");
+        box.innerHTML = this._render({
           name: element.name,
-          rotation_period: element.rotation_period,
-          diameter: element.diameter,
+          terrain: element.terrain,
+          population: element.population,
         });
-
         this._stopLoading();
-        document.body.querySelector(".content-wrapper").appendChild(block);
+        document.body.querySelector(".main").appendChild(box);
       });
     });
     this._checkNext();
   }
 
-  _startLoading(){
-    let progressBar= document.getElementById('progress');
-    progressBar.style.display = 'block';
-  }
-
-  _stopLoading(){
-    let progressBar= document.getElementById('progress');
-    progressBar.style.display = 'none';
-  }
-
-  _render({ name, rotation_period, diameter }) {
-    return `<article class="content">
-    <h6>${name}</h6>
-    <div> 
-      <ul>
-        <li>Rotation Period: <strong>${rotation_period}</strong> units</li>
-        <li>Diameter: <strong>${diameter}</strong> units</li>
-      </ul>
-    </div>
-    <article>`;
+  _render({ name, terrain, population }) {
+    return `
+      <article class="media">
+        <div class="media-left">
+          <figure class="image is-64x64">
+            <img src="${image}" alt="planet">
+          </figure>
+        </div>
+        <div class="media-content">
+          <div class="content">
+          <h4>${name}</h4>
+            <p>
+              <span class="tag">${terrain}</span> <span class="tag">${population}</span>
+              <br>
+            </p>
+          </div>
+        </div>
+      </article>
+      `;
   }
 }
